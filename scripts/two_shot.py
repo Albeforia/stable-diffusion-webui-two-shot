@@ -22,7 +22,7 @@ switch_values_symbol = '\U000021C5' # ⇅
 
 # HACK: All request args are string
 def str2bool(v):
-    if v == 'True':
+    if v == 'True' or v == True:
         return True
     else:
         return False
@@ -571,6 +571,7 @@ class Script(scripts.Script):
         enabled = str2bool(enabled)
         raw_end_at_step = str2int(raw_end_at_step)
         alpha_blend = str2float(alpha_blend)
+        print(f"LC args: {enabled}, {raw_end_at_step}, {alpha_blend}")
 
         self.enabled = enabled
 
