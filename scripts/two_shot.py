@@ -568,6 +568,11 @@ class Script(scripts.Script):
 
         enabled, raw_divisions, raw_positions, raw_weights, raw_end_at_step, alpha_blend, *cur_weight_sliders = args
 
+        # HACK: Since we do not pass 'selected_twoshot_tab' as args, the default value is 0 when called via API
+        # We can detect API call by check 'enabled' is a string, in which case always set 'selected_twoshot_tab' to 1
+        if enabled == 'True':
+            self.selected_twoshot_tab = 1
+
         enabled = str2bool(enabled)
         raw_end_at_step = str2int(raw_end_at_step)
         alpha_blend = str2float(alpha_blend)
