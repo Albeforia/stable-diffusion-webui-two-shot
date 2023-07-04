@@ -20,6 +20,18 @@ from modules.processing import StableDiffusionProcessing
 MAX_COLORS = 12
 switch_values_symbol = '\U000021C5' # ⇅
 
+# HACK: All request args are string
+def str2bool(v):
+    if v == 'True':
+        return True
+    else:
+        return False
+
+def str2int(v):
+    return int(v)
+
+def str2float(v):
+    return float(v)
 
 class ToolButton(gr.Button, gr.components.FormComponent):
     """Small button with single emoji as text, fits inside gradio forms"""
@@ -154,7 +166,7 @@ class Script(scripts.Script):
         self.num_batches: int = 0
         self.end_at_step: int = 20
         self.filters: List[Filter] = []
-        self.debug: bool = False
+        self.debug: bool = True
         self.selected_twoshot_tab = 0
         self.ndmasks = []
         self.area_colors = []
@@ -164,7 +176,7 @@ class Script(scripts.Script):
 
 
     def title(self):
-        return "Latent Couple extension"
+        return "LatentCouple"
 
     def show(self, is_img2img):
         return scripts.AlwaysVisible
@@ -555,6 +567,10 @@ class Script(scripts.Script):
     def process(self, p: StableDiffusionProcessing, *args, **kwargs):
 
         enabled, raw_divisions, raw_positions, raw_weights, raw_end_at_step, alpha_blend, *cur_weight_sliders = args
+
+        enabled = str2bool(enabled)
+        raw_end_at_step = str2int(raw_end_at_step)
+        alpha_blend = str2float(alpha_blend)
 
         self.enabled = enabled
 
